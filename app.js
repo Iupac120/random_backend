@@ -4,12 +4,26 @@ const port = process.env.PORT || 5000
 const cors = require("cors")
 const morgan = require("morgan")
 
+const whiteList = [process.env.CLIENT_URL, process.env.CLIENT2_URL]
+
+const corsOptions = {
+    origin:function (origin,callback){
+      if(whiteList.indexOf(origin) !==-1 || !origin){
+        callback(null,true)
+      }else{
+        callback(new Error("Not allowed by CORS"))
+      }
+    } ,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+    allowedHeaders: "Content-Type,Authorization",
+  };
 
 
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 app.use(morgan('tiny'))
-app.use(cors())
+app.use(cors(corsOptions))
 
 require("./model/SecondaryModel")
 const secTable = require("./controller/tableController")
