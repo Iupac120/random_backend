@@ -28,7 +28,7 @@ app.use(cors(corsOptions))
 require("./model/SecondaryModel")
 const secTable = require("./controller/tableController")
 
-app.use('/',secTable)
+app.use(secTable)
 
 const server = async (req,res) =>{
     try {
