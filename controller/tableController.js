@@ -56,25 +56,23 @@ const { SecondaryTable } = require('../model/SecondaryModel');
 //         res.status(500).json({ error: 'Failed to save tables' });
 //     }
 // });
+// 
 router.post('/save-secondary-tables', async (req, res) => {
     try {
-        // Log the request body to see what is being sent from Postman
-        console.log('Received Request Body:', req.body);
-        
         const { primaryTableId, secondaryTables } = req.body;
-
-        if (!primaryTableId || !secondaryTables) {
-            return res.status(400).json({ error: 'Invalid data format' });
+        console.log('Received Data:', req.body);  // Log incoming data
+        
+        if (!primaryTableId || !Array.isArray(secondaryTables)) {
+            return res.status(400).json({ error: 'Invalid data format for secondaryTables' });
         }
-
+        
         await SecondaryTable.create({
             primaryTableId,
-            tables: JSON.stringify(secondaryTables),
+            tables: JSON.stringify(secondaryTables)
         });
-
         res.json({ message: 'Secondary tables saved successfully!' });
     } catch (error) {
-        console.error('Error saving tables:', error);
+        console.error('Database Error:', error);
         res.status(500).json({ error: 'Failed to save tables' });
     }
 });
