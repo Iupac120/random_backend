@@ -37,22 +37,43 @@ const router = express.Router();
 const { SecondaryTable } = require('../model/SecondaryModel');  
 
 // Save secondary tables
+// router.post('/save-secondary-tables', async (req, res) => {
+//     try {
+//         const { primaryTableId, secondaryTables } = req.body;
+        
+//         if (!primaryTableId || !secondaryTables) {
+//             return res.status(400).json({ error: 'Primary table ID and secondary tables are required' });
+//         }
+
+//         await SecondaryTable.create({
+//             primaryTableId: primaryTableId,
+//             tables: JSON.stringify(secondaryTables) // Save the secondary tables as a JSON string
+//         });
+
+//         res.json({ message: 'Secondary tables saved successfully!' });
+//     } catch (error) {
+//         console.error('Error saving tables:', error);
+//         res.status(500).json({ error: 'Failed to save tables' });
+//     }
+// });
 router.post('/save-secondary-tables', async (req, res) => {
     try {
         const { primaryTableId, secondaryTables } = req.body;
         
-        if (!primaryTableId || !secondaryTables) {
-            return res.status(400).json({ error: 'Primary table ID and secondary tables are required' });
+        // Validate that secondaryTables is a valid array
+        if (!Array.isArray(secondaryTables)) {
+            return res.status(400).json({ error: 'Invalid data format for secondaryTables' });
         }
 
+        // Save the data
         await SecondaryTable.create({
-            primaryTableId: primaryTableId,
-            tables: JSON.stringify(secondaryTables) // Save the secondary tables as a JSON string
+            primaryTableId,
+            tables: JSON.stringify(secondaryTables),  // Convert arrays to string for storage
         });
 
         res.json({ message: 'Secondary tables saved successfully!' });
     } catch (error) {
-        console.error('Error saving tables:', error);
+        console.error('Error saving tables:', error);  // Log the error for debugging
         res.status(500).json({ error: 'Failed to save tables' });
     }
 });
