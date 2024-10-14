@@ -70,7 +70,10 @@ router.post('/save-secondary-tables', async (req, res) => {
             primaryTableId,
             tables: JSON.stringify(secondaryTables)
         });
-        res.json({ message: 'Secondary tables saved successfully!' });
+        res.status(200).json({
+            primaryTableId: primaryTableId,
+            secondaryTables: secondaryTables,
+        });;
     } catch (error) {
         console.error('Database Error:', error);
         res.status(500).json({ error: 'Failed to save tables' });
