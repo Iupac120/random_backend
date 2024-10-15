@@ -7,13 +7,14 @@ const morgan = require("morgan")
 const whiteList = [process.env.CLIENT_URL, process.env.CLIENT2_URL]
 
 const corsOptions = {
-    origin:function (origin,callback){
-      if(whiteList.indexOf(origin) !==-1 || !origin){
-        callback(null,true)
-      }else{
-        callback(new Error("Not allowed by CORS"))
-      }
-    } ,
+    origin:'https://genrandom.onrender.com',
+    // origin:function (origin,callback){
+    //   if(whiteList.indexOf(origin) !==-1 || !origin){
+    //     callback(null,true)
+    //   }else{
+    //     callback(new Error("Not allowed by CORS"))
+    //   }
+    // } ,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     allowedHeaders: "Content-Type,Authorization",

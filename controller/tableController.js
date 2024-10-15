@@ -61,7 +61,7 @@ router.post('/save-secondary-tables', async (req, res) => {
     try {
         const { primaryTableId, secondaryTables } = req.body;
         console.log('Received Data:', req.body);  // Log incoming data
-        
+        console.log(req.body.secondaryTables)
         if (!primaryTableId || !Array.isArray(secondaryTables)) {
             return res.status(400).json({ error: 'Invalid data format for secondaryTables' });
         }

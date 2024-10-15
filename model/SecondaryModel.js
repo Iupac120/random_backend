@@ -1,19 +1,15 @@
-
-// Import dependencies
 const { Sequelize,DataTypes } = require("sequelize");
-require("dotenv").config(); // Ensure .env variables are loaded
+require("dotenv").config(); 
 
-// Declaring database configuration parameters
 const CONFIG = {
   DB_NAME: process.env.DB_NAME,
   DB_USERNAME: process.env.DB_USERNAME,
   DB_PASSWORD: process.env.DB_PASSWORD,
   DB_DIALECT: process.env.DB_DIALECT || "postgres",
   DB_HOST: process.env.DB_HOST || "localhost",
-  DB_PORT: parseInt(process.env.DB_PORT, 10) || 5432, // Default PostgreSQL port
+  DB_PORT: parseInt(process.env.DB_PORT, 10) || 5432, 
 };
 
-// Create a new Sequelize instance
 const sequelize = new Sequelize(
     CONFIG.DB_NAME,
     CONFIG.DB_USERNAME,
@@ -65,7 +61,7 @@ const SecondaryTable = sequelize.define('SecondaryTable', {
         allowNull: false,
     },
     tables: {
-        type: DataTypes.JSONB,  // Storing tables in JSON format (works for PostgreSQL, MySQL, SQLite)
+        type: DataTypes.JSONB,  
         allowNull: false,
     },
 });
