@@ -30,25 +30,25 @@ const sequelize = new Sequelize(
     }
   );
 
-// // Function to authenticate and sync the database
-// const initializeDatabase = async () => {
-//   try {
-//     await sequelize.authenticate();
-//     console.log("Connection to PostgreSQL database successful");
+// Function to authenticate and sync the database
+const initializeDatabase = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("Connection to PostgreSQL database successful");
 
-//     await sequelize.sync({ alter: true }); // Ensures database schema is up-to-date without altering
-//     console.log("Database synchronized successfully");
-//   } catch (error) {
-//     console.error("Unable to connect to the PostgreSQL database:", error);
-//     throw error;
-//   }
-// };
+    await sequelize.sync({ alter: true }); // Ensures database schema is up-to-date without altering
+    console.log("Database synchronized successfully");
+  } catch (error) {
+    console.error("Unable to connect to the PostgreSQL database:", error);
+    throw error;
+  }
+};
 
-// // Initialize the database
-// initializeDatabase();
+// Initialize the database
+initializeDatabase();
 
-// // Export the Sequelize instance
-// module.exports = sequelize;
+// Export the Sequelize instance
+//module.exports = sequelize;
 
 
 
@@ -67,12 +67,12 @@ const SecondaryTable = sequelize.define('SecondaryTable', {
 });
 
 
-sequelize.sync()
-    .then(() => {
-        console.log('SecondaryTable model has been synced');
-    })
-    .catch(error => {
-        console.error('Failed to sync model:', error);
-    });
+// sequelize.sync()
+//     .then(() => {
+//         console.log('SecondaryTable model has been synced');
+//     })
+//     .catch(error => {
+//         console.error('Failed to sync model:', error);
+//     });
 
 module.exports = { SecondaryTable };

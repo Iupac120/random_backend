@@ -36,49 +36,64 @@ const express = require('express');
 const router = express.Router();
 const { SecondaryTable } = require('../model/SecondaryModel');  
 
-// Save secondary tables
 // router.post('/save-secondary-tables', async (req, res) => {
 //     try {
 //         const { primaryTableId, secondaryTables } = req.body;
-        
-//         if (!primaryTableId || !secondaryTables) {
-//             return res.status(400).json({ error: 'Primary table ID and secondary tables are required' });
+//         console.log('Received Data:', req.body);  // Log incoming data
+//         console.log(req.body.secondaryTables)
+//         if (!primaryTableId || !Array.isArray(secondaryTables)) {
+//             return res.status(400).json({ error: 'Invalid data format for secondaryTables' });
 //         }
-
+        
 //         await SecondaryTable.create({
-//             primaryTableId: primaryTableId,
-//             tables: JSON.stringify(secondaryTables) // Save the secondary tables as a JSON string
+//             primaryTableId,
+//             tables: JSON.stringify(secondaryTables)
 //         });
-
-//         res.json({ message: 'Secondary tables saved successfully!' });
+//         res.status(200).json({
+//             primaryTableId: primaryTableId,
+//             secondaryTables: secondaryTables,
+//         });;
 //     } catch (error) {
-//         console.error('Error saving tables:', error);
+//         console.error('Database Error:', error);
 //         res.status(500).json({ error: 'Failed to save tables' });
 //     }
 // });
-// 
+
+// Save secondary tables
 router.post('/save-secondary-tables', async (req, res) => {
     try {
         const { primaryTableId, secondaryTables } = req.body;
-        console.log('Received Data:', req.body);  // Log incoming data
-        console.log(req.body.secondaryTables)
+        console.log('Received Data:', req.body); // Log incoming data
+
+        // Check if primaryTableId and secondaryTables are provided
         if (!primaryTableId || !Array.isArray(secondaryTables)) {
-            return res.status(400).json({ error: 'Invalid data format for secondaryTables' });
+            return res.status(400).json({ error: 'Invalid data format for primaryTableId or secondaryTables' });
         }
-        
+
+        // Check if the primary table exists
+        const primaryTable = await PrimaryTable.findByPk(primaryTableId);
+        if (!primaryTable) {
+            return res.status(404).json({ error: 'Primary table not found' });
+        }
+
+        // Save the secondary tables
         await SecondaryTable.create({
             primaryTableId,
-            tables: JSON.stringify(secondaryTables)
+            tables: JSON.stringify(secondaryTables) // Save the secondary tables as a JSON string
         });
+
         res.status(200).json({
+            message: 'Secondary tables saved successfully!',
             primaryTableId: primaryTableId,
             secondaryTables: secondaryTables,
-        });;
+        });
     } catch (error) {
         console.error('Database Error:', error);
         res.status(500).json({ error: 'Failed to save tables' });
     }
 });
+
+
 
 // Retrieve secondary tables
 router.get('/retrieve-secondary-tables/:primaryTableId', async (req, res) => {
