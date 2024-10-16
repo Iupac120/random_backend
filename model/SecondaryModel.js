@@ -60,6 +60,10 @@ const SecondaryTable = sequelize.define('SecondaryTable', {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
+    table: {
+      type: DataTypes.JSONB,  
+      allowNull: false,
+  },
     tables: {
         type: DataTypes.JSONB,  
         allowNull: false,
