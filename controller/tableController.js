@@ -64,16 +64,11 @@ router.post('/save-secondary-tables', async (req, res) => {
     try {
         const { primaryTableId, secondaryTables } = req.body;
         console.log('Received Data:', req.body); // Log incoming data
-
+        const IdExist = await SecondaryTable.findByPk(primaryTableId)
+        if(IdExist) return res.status(401).json({message: `primaryTableId ${primaryTableId} already exists`})
         // Check if primaryTableId and secondaryTables are provided
         if (!primaryTableId || !Array.isArray(secondaryTables)) {
             return res.status(400).json({ error: 'Invalid data format for primaryTableId or secondaryTables' });
-        }
-
-        // Check if the primary table exists
-        const primaryTable = await PrimaryTable.findByPk(primaryTableId);
-        if (!primaryTable) {
-            return res.status(404).json({ error: 'Primary table not found' });
         }
 
         // Save the secondary tables
