@@ -80,6 +80,7 @@ router.post('/save-secondary-tables', async (req, res) => {
         res.status(200).json({
             message: 'Secondary tables saved successfully!',
             primaryTableId: primaryTableId,
+            primaryTable: primaryTable,
             secondaryTables: secondaryTables,
         });
     } catch (error) {
