@@ -55,16 +55,16 @@ initializeDatabase();
 
 
 // Define the Secondary Table model
-const SecondaryTable = sequelize.define('SecondaryTable', {
+const RandomTable = sequelize.define('RandomTable', {
     primaryTableId: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    table: {
+    primary: {
       type: DataTypes.JSONB,  
       allowNull: false,
   },
-    tables: {
+    secondary: {
         type: DataTypes.JSONB,  
         allowNull: false,
     },
@@ -79,4 +79,4 @@ const SecondaryTable = sequelize.define('SecondaryTable', {
 //         console.error('Failed to sync model:', error);
 //     });
 
-module.exports = { SecondaryTable };
+module.exports = { RandomTable };

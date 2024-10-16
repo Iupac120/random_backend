@@ -34,7 +34,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { SecondaryTable } = require('../model/SecondaryModel');  
+const { RandomTable } = require('../model/SecondaryModel');  
 
 // router.post('/save-secondary-tables', async (req, res) => {
 //     try {
@@ -71,17 +71,14 @@ router.post('/save-secondary-tables', async (req, res) => {
             return res.status(400).json({ error: 'Invalid data format for primaryTableId or secondaryTables' });
         }
         // Save the secondary tables
-        await SecondaryTable.create({
+        const data = await RandomTable.create({
             primaryTableId,
-            table:JSON.stringify(primaryTable),
-            tables: JSON.stringify(secondaryTables) 
+            primary:JSON.stringify(primaryTable),
+            secondary: JSON.stringify(secondaryTables) 
         });
-
         res.status(200).json({
             message: 'Secondary tables saved successfully!',
-            primaryTableId: primaryTableId,
-            primaryTable: primaryTable,
-            secondaryTables: secondaryTables,
+            data
         });
     } catch (error) {
         console.error('Database Error:', error);
@@ -90,15 +87,13 @@ router.post('/save-secondary-tables', async (req, res) => {
 });
 
 
-
 // Retrieve secondary tables
 router.get('/retrieve-secondary-tables/:primaryTableId', async (req, res) => {
     try {
         const { primaryTableId } = req.params;
-        const secondaryTable = await SecondaryTable.findOne({ where: { primaryTableId } });
-
-        if (secondaryTable) {
-            res.json({ secondaryTables: JSON.parse(secondaryTable.tables) }); // Parse the JSON string
+        const random = await RandomTable.findOne({ where: { primaryTableId } });
+        if (random) {
+            res.json({ random: JSON.parse(random) }); 
         } else {
             res.status(404).json({ error: 'No tables found' });
         }
