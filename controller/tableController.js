@@ -93,7 +93,11 @@ router.get('/retrieve-secondary-tables/:primaryTableId', async (req, res) => {
         const { primaryTableId } = req.params;
         const random = await RandomTable.findOne({ where: { primaryTableId } });
         if (random) {
-            res.json({ random: JSON.parse(random) }); 
+            res.json({
+                primary: JSON.parse(random.primary),     // Send back the primary table
+                secondary: JSON.parse(random.secondary)
+             }); 
+            console.log("here")
         } else {
             res.status(404).json({ error: 'No tables found' });
         }
