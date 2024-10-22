@@ -27,14 +27,14 @@ app.use(express.urlencoded({extended:false}))
 app.use(morgan('tiny'))
 app.use(cors(corsOptions))
 
-app.use((err, req, res, next) => {
-    if (err instanceof cors.CorsError) {
-      // Handle CORS error
-      res.status(400).send({ message: 'CORS Error: Not allowed by CORS' });
-    } else {
-      next(err);
-    }
-  });
+// app.use((err, req, res, next) => {
+//     if (err instanceof cors.CorsError) {
+//       // Handle CORS error
+//       res.status(400).send({ message: 'CORS Error: Not allowed by CORS' });
+//     } else {
+//       next(err);
+//     }
+//   });
   
 require("./model/SecondaryModel")
 const secTable = require("./controller/tableController")
